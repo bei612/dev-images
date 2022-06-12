@@ -1,0 +1,6 @@
+FROM registry.cn-shanghai.aliyuncs.com/eldenring/lichking:go-1.18.3
+RUN apt update && apt install -y apt-transport-https gnupg2 curl net-tools wget vim dnsutils lsb-release bash-completion && curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg && echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list && apt-get update
+RUN apt install kubectl=1.24.1-00 -y && apt-mark hold kubectl && echo "source /usr/share/bash-completion/bash_completion" >> ~/.bashrc && echo "source <(kubectl completion bash)" >> ~/.bashrc && mkdir -p ~/.kube
+RUN wget https://get.helm.sh/helm-v3.9.0-linux-amd64.tar.gz && tar -zxvf helm-v3.9.0-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/. && rm -rf helm-v3.9.0-linux-amd64.tar.gz linux-amd64
+RUN wget https://github.com/sunny0826/kubecm/releases/download/v0.17.0/kubecm_0.17.0_Linux_x86_64.tar.gz && tar zxvf kubecm_0.17.0_Linux_x86_64.tar.gz && mv kubecm /usr/local/bin/. && rm -rf README.md LICENSE kubecm_0.17.0_Linux_x86_64.tar.gz
+WORKDIR /app
